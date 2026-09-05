@@ -2,4 +2,5 @@
 <resources>
     <!-- 7"+ tablets: keep content from stretching edge to edge -->
     <dimen name="screen_side_margin">56dp</dimen>
+    <dimen name="content_max_width">600dp</dimen>
 </resources>
