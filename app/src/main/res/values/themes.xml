@@ -6,6 +6,7 @@
         <item name="colorAccent">@color/lime_accent</item>
         <item name="android:statusBarColor">@color/green_dark</item>
         <item name="android:windowBackground">@color/green_pale</item>
+        <item name="android:textColorHint">@color/hint_green</item>
     </style>
 
     <style name="Theme.Zumar.NoActionBar">
