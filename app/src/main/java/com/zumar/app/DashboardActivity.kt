@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -40,6 +41,10 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var tabBuy: View
     private lateinit var tabHistory: View
     private lateinit var tabProfile: View
+    private fun widenDialog(dialog: Dialog) {
+        val width = (resources.displayMetrics.widthPixels * 0.92).toInt()
+        dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -193,6 +198,7 @@ class DashboardActivity : AppCompatActivity() {
             Toast.makeText(this, "₦${format(amount)} added to your wallet!", Toast.LENGTH_SHORT).show()
         }
         dialog.show()
+        widenDialog(dialog)
     }
 
     // -------------------------------------------------------------------
@@ -258,6 +264,7 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         dialog.show()
+        widenDialog(dialog)
     }
 
     private fun showDataDialog(presetNetwork: String?, presetPlanLabel: String?, presetPlanPrice: Int?) {
@@ -321,6 +328,7 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         dialog.show()
+        widenDialog(dialog)
     }
 
     private fun showDialogError(tv: TextView, msg: String) {
@@ -355,6 +363,7 @@ class DashboardActivity : AppCompatActivity() {
             Toast.makeText(this, "Profile updated.", Toast.LENGTH_SHORT).show()
         }
         dialog.show()
+        widenDialog(dialog)
     }
 
     private fun showBeneficiariesDialog() {
@@ -401,6 +410,7 @@ class DashboardActivity : AppCompatActivity() {
             Toast.makeText(this, "Beneficiary added.", Toast.LENGTH_SHORT).show()
         }
         dialog.show()
+        widenDialog(dialog)
     }
 
     private fun showPinChangeDialog() {
@@ -429,6 +439,7 @@ class DashboardActivity : AppCompatActivity() {
             Toast.makeText(this, "PIN updated.", Toast.LENGTH_SHORT).show()
         }
         dialog.show()
+        widenDialog(dialog)
     }
 
     private fun showNotificationsDialog() {
@@ -448,6 +459,7 @@ class DashboardActivity : AppCompatActivity() {
             Toast.makeText(this, "Preferences saved.", Toast.LENGTH_SHORT).show()
         }
         dialog.show()
+        widenDialog(dialog)
     }
 
     private fun showAboutDialog() {
@@ -456,6 +468,7 @@ class DashboardActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.dialog_about)
         dialog.window?.setBackgroundDrawableResource(R.drawable.bg_card_rounded)
         dialog.show()
+        widenDialog(dialog)
     }
 
     // -------------------------------------------------------------------
