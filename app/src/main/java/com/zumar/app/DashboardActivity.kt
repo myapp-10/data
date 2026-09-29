@@ -45,6 +45,8 @@ class DashboardActivity : AppCompatActivity() {
         val width = (resources.displayMetrics.widthPixels * 0.92).toInt()
         dialog.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
+    private var lastPausedTime: Long = 0
+    private var isLocked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,6 +128,49 @@ class DashboardActivity : AppCompatActivity() {
 
         setBuyMode("airtime")
         selectTab("home")
+    }
+    override fun onPause() {
+        super.onPause()
+        lastPausedTime = System.currentTimeMillis()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val now = System.currentTimeMillis()
+        if (lastPausedTime != 0L && (now - lastPausedTime) > 15000) {
+            showLockScreen()
+        }
+    }
+
+    private fun showLockScreen() {
+        if (isLocked) return
+        isLocked = true
+
+        val user = session.getCurrentUser() ?: return
+        val dialog = Dialog(this)
+        dialog.setCancelable(false)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_lock_screen)
+        dialog.window?.setBackgroundDrawableResource(R.drawable.bg_card_rounded)
+
+        val etPass = dialog.findViewById<EditText>(R.id.lockPassword)
+        val tvError = dialog.findViewById<TextView>(R.id.lockError)
+        val btnUnlock = dialog.findViewById<Button>(R.id.btnUnlock)
+
+        btnUnlock.setOnClickListener {
+            val typed = etPass.text.toString()
+            val hashed = SessionManager.hash(typed)
+            val matched = session.checkCredentials(user.email, hashed)
+            if (matched == null) {
+                showDialogError(tvError, "Incorrect password.")
+            } else {
+                isLocked = false
+                dialog.dismiss()
+            }
+        }
+
+        dialog.show()
+        widenDialog(dialog)
     }
 
     // -------------------------------------------------------------------
